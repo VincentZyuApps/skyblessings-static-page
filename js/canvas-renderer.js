@@ -12,18 +12,18 @@ class CanvasRenderer {
     // 预加载所有需要的图片
     async preloadImages(result) {
         const imagesToLoad = [
-            { key: 'background', src: './starimg/background.png' },
-            { key: 'background5', src: './starimg/background5.png' }
+            { key: 'background', src: './assets/background.png' },
+            { key: 'background5', src: './assets/background5.png' }
         ];
 
         // 添加背景装饰图
         if (result.backgroundImage) {
-            imagesToLoad.push({ key: 'bgDecoration', src: `./starimg/${result.backgroundImage}` });
+            imagesToLoad.push({ key: 'bgDecoration', src: `./assets/${result.backgroundImage}` });
         }
 
         // 添加签文图片
         if (result.textImage) {
-            imagesToLoad.push({ key: 'textImg', src: `./starimg/${result.textImage}` });
+            imagesToLoad.push({ key: 'textImg', src: `./assets/${result.textImage}` });
         }
 
         const loadPromises = imagesToLoad.map(({ key, src }) => {
@@ -120,9 +120,20 @@ class CanvasRenderer {
         ctx.textBaseline = 'top';
 
         // 根据全局字体设置选择字体
-        const fontFamily = (typeof currentFont !== 'undefined' && currentFont === 'simli')
-            ? '"隶书", SimLi, serif'
-            : '"霞鹜文楷", "LXGW WenKai Mono", serif';
+        let fontFamily;
+        if (typeof currentFont !== 'undefined') {
+            if (currentFont === 'simli') {
+                fontFamily = '"隶书", SimLi, serif';
+            } else if (currentFont === 'lxgw') {
+                fontFamily = '"霞鹜文楷", "LXGW WenKai Mono", serif';
+            } else if (currentFont === 'default') {
+                fontFamily = 'sans-serif';
+            } else {
+                fontFamily = '"霞鹜文楷", "LXGW WenKai Mono", serif';
+            }
+        } else {
+            fontFamily = '"霞鹜文楷", "LXGW WenKai Mono", serif';
+        }
 
         // 文字区域位置
         const textAreaX = Math.floor(this.width * (1 - 0.35)) - 40 - 133;

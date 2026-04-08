@@ -8,11 +8,11 @@
   }
   @font-face {
   	font-family:"隶书";
-  	src: url("../css/SIMLI.ttf");
+  	src: url("../assets/SIMLI.ttf");
   }
   @font-face {
   	font-family:"霞鹜文楷";
-  	src: url("../css/LXGWWenKaiMono-Medium.ttf");
+  	src: url("../assets/LXGWWenKaiMono-Medium.ttf");
   }
   .pinmutishi{
   	position: fixed;
@@ -39,7 +39,7 @@
   	opacity:0.8;
   	width: 1240px;
   	height: 620px;
-  	-webkit-mask-image: url('../starimg/background.png'); /* 使用图片作为遮罩 */
+  	-webkit-mask-image: url('../assets/background.png'); /* 使用图片作为遮罩 */
   	-webkit-mask-repeat: no-repeat; /* 不重复遮罩 */
   }
   #backgroundimg{
@@ -47,8 +47,8 @@
   	width: 1240px;
   	height: 620px;
 	background-color: white;
-	background-image: url('../starimg/background5.png');
-	-webkit-mask-repeat: no-repeat; 
+	background-image: url('../assets/background5.png');
+	-webkit-mask-repeat: no-repeat;
   }
   #lots{
   	position: absolute;

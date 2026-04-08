@@ -47,7 +47,7 @@ function getFontFromURL() {
 
     if (font) {
         const fontLower = font.toLowerCase();
-        if (fontLower === 'simli' || fontLower === 'lxgw') {
+        if (fontLower === 'simli' || fontLower === 'lxgw' || fontLower === 'default') {
             return fontLower;
         }
     }
@@ -57,7 +57,15 @@ function getFontFromURL() {
 
 // 应用字体设置
 function applyFont(font) {
-    const fontFamily = font === 'simli' ? '隶书' : '霞鹜文楷';
+    let fontFamily;
+    if (font === 'simli') {
+        fontFamily = '隶书';
+    } else if (font === 'lxgw') {
+        fontFamily = '霞鹜文楷';
+    } else if (font === 'default') {
+        fontFamily = 'sans-serif'; // 系统默认字体
+    }
+
     document.querySelectorAll('.text p').forEach(el => {
         el.style.fontFamily = fontFamily;
     });
@@ -247,7 +255,7 @@ window.onload = function() {
       66666,忌：勇,1,6666,entry
       66666,忌：横,1,6666,entry
     `;
-	const rows = configData.trim().split('\n'); 
+	const rows = configData.trim().split('\n');
     rows.forEach(row => {
       const columns = row.split(',');
       if (columns.length >= 5) {
@@ -256,16 +264,19 @@ window.onload = function() {
         const weight = parseInt(columns[2].trim(), 10);
         const parentId = columns[3].trim() || null;
         const remark = columns[4].trim() || '';
-        
+
         if (name) {
           drawItems.push({ id, name, weight, parentId, remark });
         }
       }
     });
 
-    // 默认模式：显示页面并自动抽奖
+    // 执行抽奖
     startDraw();
     applyFont(currentFont);
+
+    // 显示下载按钮
+    showDownloadButton();
 }
 
 let drawItems = [];
@@ -335,16 +346,16 @@ function startDraw() {
 	  currentDrawResult.backgroundImage = backgroundImageMap[selectedItem.name] || '';
 
 	  if (selectedItem.name == "backgroundimg0") {
-	  	  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background0.png)');
+	  	  $('#backgroundimg').css('-webkit-mask-image', 'url(./assets/background0.png)');
 	  }else if (selectedItem.name == "backgroundimg1") {
 
-		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background1.png)');
+		  $('#backgroundimg').css('-webkit-mask-image', 'url(./assets/background1.png)');
 	  }else if (selectedItem.name == "backgroundimg2") {
 
-		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background2.png)');
+		  $('#backgroundimg').css('-webkit-mask-image', 'url(./assets/background2.png)');
 	  }else if (selectedItem.name == "backgroundimg3") {
 
-		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background3.png)');
+		  $('#backgroundimg').css('-webkit-mask-image', 'url(./assets/background3.png)');
 	  }
   }
   // 递归抽取下级项
@@ -372,15 +383,15 @@ function startDraw() {
 		currentDrawResult.textImage = textImageMap[selectedSubItem.name] || '';
 
 		if(selectedSubItem.name == "大吉"){
-			$('#textimg').attr('src', './starimg/text0.png');
+			$('#textimg').attr('src', './assets/text0.png');
 		}else if(selectedSubItem.name == "中吉"){
-			$('#textimg').attr('src', './starimg/text1.png');
+			$('#textimg').attr('src', './assets/text1.png');
 		}else if(selectedSubItem.name == "小吉"){
-			$('#textimg').attr('src', './starimg/text2.png');
+			$('#textimg').attr('src', './assets/text2.png');
 		}else if(selectedSubItem.name == "吉"){
-			$('#textimg').attr('src', './starimg/text3.png');
+			$('#textimg').attr('src', './assets/text3.png');
 		}else if(selectedSubItem.name == "奇"){
-			$('#textimg').attr('src', './starimg/text4.png');
+			$('#textimg').attr('src', './assets/text4.png');
 		}
 	}else if(selectedSubItem.remark == "dordas"){
 		//设置结缘物
@@ -471,4 +482,81 @@ function shuffleArray(array) {
     const j = Math.floor(randomFunc() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]]; // 交换元素
   }
+}
+
+// 显示下载按钮
+function showDownloadButton() {
+    const button = document.createElement('button');
+    button.textContent = '下载图片';
+    button.style.cssText = `
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        padding: 14px 32px;
+        font-size: 15px;
+        font-family: 霞鹜文楷;
+        background: rgba(255, 255, 255, 0.85);
+        color: #5a5a5a;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 25px;
+        cursor: pointer;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        letter-spacing: 1px;
+    `;
+
+    button.onmouseover = function() {
+        this.style.background = 'rgba(255, 255, 255, 0.95)';
+        this.style.transform = 'translateY(-3px) scale(1.02)';
+        this.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1)';
+        this.style.color = '#3a3a3a';
+    };
+
+    button.onmouseout = function() {
+        this.style.background = 'rgba(255, 255, 255, 0.85)';
+        this.style.transform = 'translateY(0) scale(1)';
+        this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)';
+        this.style.color = '#5a5a5a';
+    };
+
+    button.onclick = async function() {
+        this.textContent = '生成中...';
+        this.disabled = true;
+        this.style.opacity = '0.7';
+
+        try {
+            const renderer = new CanvasRenderer();
+            await renderer.render(currentDrawResult);
+            const blob = await renderer.toBlob();
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'skyblessings.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            this.textContent = '下载成功';
+            this.style.opacity = '1';
+            setTimeout(() => {
+                this.textContent = '下载图片';
+                this.disabled = false;
+            }, 2000);
+        } catch (error) {
+            console.error('下载失败:', error);
+            this.textContent = '下载失败';
+            this.style.opacity = '1';
+            setTimeout(() => {
+                this.textContent = '下载图片';
+                this.disabled = false;
+            }, 2000);
+        }
+    };
+
+    document.body.appendChild(button);
 }

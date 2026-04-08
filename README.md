@@ -24,6 +24,10 @@
   <img src="https://img.shields.io/badge/⚡_Cloudflare_Pages-skyblessings--static.pages.dev-0084c2?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=f38020" alt="Cloudflare Pages" />
 </a>
 
+## 📸 页面预览
+
+![页面预览](./doc/page-preview.png)
+
 ## ✨ 特性
 
 - 🎲 **固定种子**：相同参数生成相同结果
