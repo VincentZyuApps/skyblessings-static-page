@@ -1,0 +1,16 @@
+# 临时文件夹
+temp/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node.js (如果以后需要)
+node_modules/
+package-lock.json

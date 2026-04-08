@@ -1,10 +1,89 @@
- document.addEventListener('keydown', function(event) {
+// 基于种子的伪随机数生成器（Mulberry32 算法）
+function createSeededRandom(seed) {
+    return function() {
+        seed = (seed + 0x6D2B79F5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+// 从 URL 获取种子参数
+function getSeedFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    // 支持 a-e 参数组合（与 FastAPI 版本兼容）
+    const a = params.get('a') || '';
+    const b = params.get('b') || '';
+    const c = params.get('c') || '';
+    const d = params.get('d') || '';
+    const e = params.get('e') || '';
+
+    if (a || b || c || d || e) {
+        // 简单哈希函数（模拟 MD5 的效果）
+        const raw = `${a}|${b}|${c}|${d}|${e}`;
+        let hash = 0;
+        for (let i = 0; i < raw.length; i++) {
+            const char = raw.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // 转换为 32 位整数
+        }
+        return Math.abs(hash);
+    }
+
+    return null; // 没有种子参数，使用真随机
+}
+
+// 全局随机数生成器
+let randomFunc = Math.random;
+
+// 全局字体设置
+let currentFont = 'lxgw'; // 默认字体
+
+// 获取字体参数
+function getFontFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const font = params.get('font');
+
+    if (font) {
+        const fontLower = font.toLowerCase();
+        if (fontLower === 'simli' || fontLower === 'lxgw') {
+            return fontLower;
+        }
+    }
+
+    return 'lxgw'; // 默认
+}
+
+// 应用字体设置
+function applyFont(font) {
+    const fontFamily = font === 'simli' ? '隶书' : '霞鹜文楷';
+    document.querySelectorAll('.text p').forEach(el => {
+        el.style.fontFamily = fontFamily;
+    });
+}
+
+document.addEventListener('keydown', function(event) {
 	// 检查是否按下 Enter 键
 	if (event.key === 'Enter') {
 		startDraw();
 	}
 });
 window.onload = function() {
+    // 初始化随机数生成器
+    const seed = getSeedFromURL();
+    if (seed !== null) {
+        randomFunc = createSeededRandom(seed);
+        console.log('使用种子:', seed);
+    } else {
+        randomFunc = Math.random;
+        console.log('使用真随机');
+    }
+
+    // 初始化字体
+    currentFont = getFontFromURL();
+    console.log('使用字体:', currentFont);
+
     // 导入配置
     const configData = `
       ID,获奖人/奖项,权重,上级ID,备注
@@ -183,16 +262,63 @@ window.onload = function() {
         }
       }
     });
-    startDraw(); // 自动抽奖
+
+    // 默认模式：显示页面并自动抽奖
+    startDraw();
+    applyFont(currentFont);
 }
 
 let drawItems = [];
+
+// 全局抽签结果对象
+let currentDrawResult = {
+    backgroundImage: '',
+    backgroundId: '',
+    textImage: '',
+    fortuneLevel: '',
+    dordas: '',
+    dordasColor: '',
+    colorHex: '',
+    blessing: '',
+    entry: ''
+};
+
+// 背景图片映射
+const backgroundImageMap = {
+    'backgroundimg0': 'background0.png',
+    'backgroundimg1': 'background1.png',
+    'backgroundimg2': 'background2.png',
+    'backgroundimg3': 'background3.png'
+};
+
+// 签文图片映射
+const textImageMap = {
+    '大吉': 'text0.png',
+    '中吉': 'text1.png',
+    '小吉': 'text2.png',
+    '吉': 'text3.png',
+    '奇': 'text4.png'
+};
+
 function startDraw() {
+  // 重置结果对象
+  currentDrawResult = {
+      backgroundImage: '',
+      backgroundId: '',
+      textImage: '',
+      fortuneLevel: '',
+      dordas: '',
+      dordasColor: '',
+      colorHex: '',
+      blessing: '',
+      entry: ''
+  };
+
   // 过滤出 N0 项
   const n0Items = drawItems.filter(item => !item.parentId);
   // 生成权重索引数组
   const indices = [];
-  
+
   // 创建权重索引数组
   n0Items.forEach((item, index) => {
     for (let i = 0; i < item.weight; i++) {
@@ -203,18 +329,21 @@ function startDraw() {
     shuffleArray(indices);
 
   // 生成一个随机数
-  const selectedItem = n0Items[indices[Math.floor(Math.random() * indices.length)]];
+  const selectedItem = n0Items[indices[Math.floor(randomFunc() * indices.length)]];
   if(selectedItem.remark == "backgroundimg"){
+	  currentDrawResult.backgroundId = selectedItem.name;
+	  currentDrawResult.backgroundImage = backgroundImageMap[selectedItem.name] || '';
+
 	  if (selectedItem.name == "backgroundimg0") {
 	  	  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background0.png)');
 	  }else if (selectedItem.name == "backgroundimg1") {
-	  	
+
 		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background1.png)');
 	  }else if (selectedItem.name == "backgroundimg2") {
-	  	
+
 		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background2.png)');
 	  }else if (selectedItem.name == "backgroundimg3") {
-	  	
+
 		  $('#backgroundimg').css('-webkit-mask-image', 'url(./starimg/background3.png)');
 	  }
   }
@@ -236,9 +365,12 @@ function startDraw() {
     if (subIndices.length === 0) return; // 如果没有可抽奖项，结束递归
       shuffleArray(subIndices);
     // 生成一个随机数
-    const selectedSubItem = subItems[subIndices[Math.floor(Math.random() * subIndices.length)]];
+    const selectedSubItem = subItems[subIndices[Math.floor(randomFunc() * subIndices.length)]];
 	if(selectedSubItem.remark == "textimg"){
 		//设置签"吉"图片
+		currentDrawResult.fortuneLevel = selectedSubItem.name;
+		currentDrawResult.textImage = textImageMap[selectedSubItem.name] || '';
+
 		if(selectedSubItem.name == "大吉"){
 			$('#textimg').attr('src', './starimg/text0.png');
 		}else if(selectedSubItem.name == "中吉"){
@@ -252,9 +384,11 @@ function startDraw() {
 		}
 	}else if(selectedSubItem.remark == "dordas"){
 		//设置结缘物
-		$('#dordas').html(selectedSubItem.name); 
+		currentDrawResult.dordas = selectedSubItem.name;
+		$('#dordas').html(selectedSubItem.name);
 	}else if(selectedSubItem.remark == "dordascolor"){
 		//设置缘彩
+		currentDrawResult.dordasColor = selectedSubItem.name;
 		$('#dordas').append('<br>'+selectedSubItem.name);
 		const colors = {
 		    "缘彩：丹色": "#fb5731",
@@ -305,13 +439,16 @@ function startDraw() {
 		};
 		const selectedColor = colors[selectedSubItem.name];
 		if (selectedColor) {
+		    currentDrawResult.colorHex = selectedColor;
 		    $('#background').css('background-color', selectedColor);
 		}
 	}else if(selectedSubItem.remark == "blessing"){
 		//设置祝福语
+		currentDrawResult.blessing = selectedSubItem.name;
 		$('#blessing').html(selectedSubItem.name);
 	}else if(selectedSubItem.remark == "entry"){
 		//设置词条
+		currentDrawResult.entry = selectedSubItem.name;
 		$('#entry').html(selectedSubItem.name);
 	}
     drawSubItems(selectedSubItem.id); // 递归调用，继续抽取下级项
@@ -331,7 +468,7 @@ function startDraw() {
 // 随机打乱数组的函数
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(randomFunc() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]]; // 交换元素
   }
 }
