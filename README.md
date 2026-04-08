@@ -1,16 +1,25 @@
 
 ![skyblessings-static-page](https://socialify.git.ci/VincentZyuApps/skyblessings-static-page/image?custom_description=%F0%9F%8E%B4+%E5%85%89%E9%81%87%E7%A5%88%E7%A6%8F%E7%AD%BE+-+%E7%BA%AF%E9%9D%99%E6%80%81%E5%89%8D%E7%AB%AF%E7%BD%91%E9%A1%B5+%7C+%E6%94%AF%E6%8C%81%E7%A7%8D%E5%AD%90%E5%92%8C%E5%AD%97%E4%BD%93param%E3%80%81Canvas%E6%B8%B2%E6%9F%93%E3%80%81%E5%A4%9A%E5%AD%97%E4%BD%93%E9%80%89%E6%8B%A9+%7C+CI%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E8%87%B3+GitHub+Pages+%26+Cloudflare+Pages+&description=1&font=KoHo&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F61%2FHTML5_logo_and_wordmark.svg%2F960px-HTML5_logo_and_wordmark.svg.png%3F_%3D20170517184425&name=1&owner=1&pattern=Formal+Invitation&pulls=1&stargazers=1&theme=Auto)
+
 # 光遇七夕祈福签
 
-> 纯前端， 光遇祈福签静态网页，支持在url后面种子和字体选择param(`?font=lxgw&a=xxx&b=yyy...`)。 
+> 纯前端， 光遇祈福签静态网页，支持在url后面种子和字体选择param(`?font=lxgw&a=xxx&b=yyy...`)。
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VincentZyuApps/skyblessings-static-page)
+[![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/skyblessings-static-page)
+
+<p><del>💬 聊天吹水 / 🐛 Bug问题等反馈 / 👨‍💻 开发等技术交流，欢迎加入QQ群：<b>259248174</b>   🎉（这个群G了</del> </p>
+<p>💬 聊天吹水 / 🐛 Bug问题等反馈 / 👨‍💻 开发等技术交流，欢迎加入QQ群：<b>1085190201</b> 🎉</p>
+<p>💡 在群里直接艾特我，回复的更快哦~ ✨</p>
 
 ## 🌐 在线访问
 
 > Github Page: `https://vincentzyuapps.github.io/skyblessings-static-page/`
+> Cloudflare Page: `https://skyblessings-static.pages.dev/`
+
 <a href="https://vincentzyuapps.github.io/skyblessings-static-page/">
   <img src="https://img.shields.io/badge/📖_GitHub_Pages-vincentzyuapps.github.io-0084c2?style=for-the-badge&logo=github&logoColor=white&labelColor=181717" alt="GitHub Pages" />
 </a>
-> Cloudflare Page: `https://skyblessings-static.pages.dev/`
 <a href="https://skyblessings-static.pages.dev">
   <img src="https://img.shields.io/badge/⚡_Cloudflare_Pages-skyblessings--static.pages.dev-0084c2?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=f38020" alt="Cloudflare Pages" />
 </a>
@@ -27,6 +36,8 @@
 
 ```bash
 git clone https://github.com/VincentZyuApps/skyblessings-static-page.git
+# 或者clone gitee的repo
+git clone https://gitee.com/vincent-zyu/skyblessings-static-page.git
 cd skyblessings-static-page
 ```
 
