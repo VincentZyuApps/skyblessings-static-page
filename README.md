@@ -28,6 +28,10 @@
 
 ![页面预览](./doc/page-preview.png)
 
+**下载功能示例：**
+
+![下载图片示例](./doc/download-preview.png)
+
 ## ✨ 特性
 
 - 🎲 **固定种子**：相同参数生成相同结果
