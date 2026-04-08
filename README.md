@@ -1,6 +1,19 @@
+
+![skyblessings-static-page](https://socialify.git.ci/VincentZyuApps/skyblessings-static-page/image?custom_description=%F0%9F%8E%B4+%E5%85%89%E9%81%87%E7%A5%88%E7%A6%8F%E7%AD%BE+-+%E7%BA%AF%E9%9D%99%E6%80%81%E5%89%8D%E7%AB%AF%E7%BD%91%E9%A1%B5+%7C+%E6%94%AF%E6%8C%81%E7%A7%8D%E5%AD%90%E5%92%8C%E5%AD%97%E4%BD%93param%E3%80%81Canvas%E6%B8%B2%E6%9F%93%E3%80%81%E5%A4%9A%E5%AD%97%E4%BD%93%E9%80%89%E6%8B%A9+%7C+CI%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E8%87%B3+GitHub+Pages+%26+Cloudflare+Pages+&description=1&font=KoHo&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F61%2FHTML5_logo_and_wordmark.svg%2F960px-HTML5_logo_and_wordmark.svg.png%3F_%3D20170517184425&name=1&owner=1&pattern=Formal+Invitation&pulls=1&stargazers=1&theme=Auto)
 # 光遇七夕祈福签
 
-纯前端实现的光遇祈福签生成器，支持固定种子和字体选择。
+> 纯前端， 光遇祈福签静态网页，支持在url后面种子和字体选择param(`?font=lxgw&a=xxx&b=yyy...`)。 
+
+## 🌐 在线访问
+
+> Github Page: `https://vincentzyuapps.github.io/skyblessings-static-page/`
+<a href="https://vincentzyuapps.github.io/skyblessings-static-page/">
+  <img src="https://img.shields.io/badge/📖_GitHub_Pages-vincentzyuapps.github.io-0084c2?style=for-the-badge&logo=github&logoColor=white&labelColor=181717" alt="GitHub Pages" />
+</a>
+> Cloudflare Page: `https://skyblessings-static.pages.dev/`
+<a href="https://skyblessings-static.pages.dev">
+  <img src="https://img.shields.io/badge/⚡_Cloudflare_Pages-skyblessings--static.pages.dev-0084c2?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=f38020" alt="Cloudflare Pages" />
+</a>
 
 ## ✨ 特性
 
@@ -8,7 +21,14 @@
 - 🔤 **字体选择**：支持霞鹜文楷和隶书两种字体
 - 🚀 **零依赖部署**：可部署到 GitHub Pages / Cloudflare Pages
 
-## 🚀 快速开始
+## 🚀 本地尝试
+
+### 克隆仓库
+
+```bash
+git clone https://github.com/VincentZyuApps/skyblessings-static-page.git
+cd skyblessings-static-page
+```
 
 ### 方法 1：使用 Python
 
