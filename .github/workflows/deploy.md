@@ -37,6 +37,53 @@ git commit -m "fix: update color mapping (deploy)"
    - 只要项目创建成功，后续的 GitHub Action 会自动覆盖这里的内容，不用担心。
 7. 回到 GitHub Actions 页面，**重新运行 (Re-run)** 之前失败的任务。
 
+## 📄 前置准备：启用 GitHub Pages (必需)
+
+**重要**：在首次部署前，必须在 GitHub 仓库中启用 GitHub Pages 并配置为使用 GitHub Actions，否则部署会失败并报错 `Get Pages site failed`。
+
+### 启用步骤：
+
+1. 进入你的 GitHub 仓库页面
+   - 例如：`https://github.com/你的用户名/skyblessings-static-page`
+
+2. 点击顶部的 **Settings** (设置) 标签页
+   - 如果看不到 Settings，说明你没有仓库的管理员权限
+
+3. 在左侧菜单中找到 **Pages** (页面)
+   - 位置：Settings -> 左侧菜单 -> Code and automation 部分 -> Pages
+
+4. 在 **Build and deployment** (构建和部署) 部分：
+   - **Source** (来源)：从下拉菜单中选择 **GitHub Actions**
+   - ⚠️ **不要选择** "Deploy from a branch"，必须选择 "GitHub Actions"
+
+5. 点击 **Save** (保存) 按钮（如果有的话）
+
+6. 配置完成后，页面会显示：
+   ```
+   Your site is ready to be published at https://你的用户名.github.io/skyblessings-static-page/
+   ```
+
+7. 返回 **Actions** 标签页，重新运行之前失败的 workflow
+   - 点击失败的 workflow run
+   - 点击右上角的 **Re-run failed jobs** (重新运行失败的任务)
+
+### 验证配置是否成功：
+
+- ✅ 在 Settings -> Pages 页面，Source 显示为 "GitHub Actions"
+- ✅ 重新运行 workflow 后，`deploy-gh-pages` 任务变为绿色 ✓
+- ✅ 可以访问 `https://你的用户名.github.io/仓库名/`
+
+### 常见问题：
+
+**Q: 为什么必须手动启用 GitHub Pages？**
+A: GitHub 出于安全考虑，不允许 workflow 自动启用 Pages。必须由仓库管理员手动配置。
+
+**Q: 我找不到 Pages 选项？**
+A: 确保：
+- 你是仓库的 Owner 或 Admin
+- 仓库是 Public（公开）或者你有 GitHub Pro/Team/Enterprise 账户
+- 仓库没有被 fork 限制
+
 ## 🛠️ 部署逻辑
 
 该工作流包含两个并行的任务 (Jobs)，分别部署到两个平台：
